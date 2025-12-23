@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>珍珠奶茶每日解鎖</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="Daily Bubbles Title.png" alt="Daily Bubbles" class="title-image" />
+            <p class="subtitle">Pop Today's Bubble!</p>
+        </header>
+        
+        <div class="pearls-container" id="pearlsContainer">
+            <!-- 珍珠將由 JavaScript 動態生成 -->
+        </div>
+        
+        <!-- 珍珠奶茶圖片 -->
+        <div class="bubble-tea-image">
+            <img id="bubbleTeaImg" src="" alt="珍珠奶茶插畫" />
+        </div>
+        
+        <!-- 版權資訊 -->
+        <footer class="footer">
+            <p>Designed by Terri, 2025</p>
+        </footer>
+    </div>
+
+    <!-- Modal 彈出視窗 -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <div class="modal-header">
+                <h2 id="modalDate"></h2>
+                <p id="modalWeekday"></p>
+            </div>
+            <div class="modal-body">
+                <img id="modalImage" src="" alt="" class="modal-image" style="display: none;" />
+                <p id="modalContent"></p>
+            </div>
+            <div class="modal-feedback">
+                <textarea id="feedbackInput" placeholder="Write down anything..."></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="complete-btn" id="completeBtn">
+                    <span class="complete-icon">✓</span>
+                    <span class="complete-text">完成</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,402 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Microsoft JhengHei', 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
+    background: rgb(254, 219, 151);
+    min-height: 100vh;
+    padding: 20px;
+    color: #5c4a37;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px 0;
+}
+
+.title-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 15px;
+    max-width: 600px;
+}
+
+.subtitle {
+    font-size: 0.95rem;
+    color: rgb(160, 88, 88);
+    opacity: 1;
+    margin-bottom: 0;
+    margin-top: 5px;
+}
+
+.pearls-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 25px;
+    padding: 20px 30px;
+    justify-items: center;
+    align-items: center;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+/* 珍珠奶茶圖片樣式 */
+.bubble-tea-image {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 5px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bubble-tea-image img {
+    width: 100%;
+    height: auto;
+    max-width: 800px;
+    max-height: 600px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+/* 版權資訊 */
+.footer {
+    text-align: center;
+    padding: 10px 20px;
+    margin-top: 5px;
+}
+
+.footer p {
+    font-size: 0.9rem;
+    color: rgb(222, 126, 39);
+    margin: 0;
+}
+
+.pearl {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    animation: float 3s ease-in-out infinite;
+}
+
+.pearl:nth-child(odd) {
+    animation-delay: 0.5s;
+}
+
+.pearl:nth-child(even) {
+    animation-delay: 1s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.pearl:hover:not(.locked) {
+    transform: scale(1.1) translateY(-5px);
+}
+
+.pearl.locked {
+    cursor: not-allowed;
+    position: relative;
+}
+
+.pearl.locked::after {
+    content: '🔒';
+    position: absolute;
+    font-size: 20px;
+    opacity: 0.6;
+}
+
+.pearl.active {
+    animation: bounce 0.6s ease;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+.pearl-number {
+    font-size: 0.9rem;
+    z-index: 1;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.pearl-day {
+    font-size: 0.75rem;
+    margin-bottom: 2px;
+}
+
+.pearl-date {
+    font-size: 0.65rem;
+    opacity: 0.9;
+}
+
+/* Modal 樣式 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #fff8f0 0%, #f5e6d3 100%);
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+    animation: slideUp 0.3s ease;
+    border: 3px solid #8b6f47;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.close {
+    color: #8b6f47;
+    float: right;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    transition: transform 0.2s;
+}
+
+.close:hover {
+    transform: rotate(90deg);
+}
+
+.modal-header {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #d4c4b0;
+}
+
+.modal-header h2 {
+    color: #8b6f47;
+    font-size: 1.8rem;
+    margin-bottom: 3px;
+}
+
+.modal-header p {
+    color: #7a6348;
+    font-size: 1.1rem;
+    opacity: 0.8;
+    margin: 0;
+}
+
+.modal-body {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #5c4a37;
+    padding: 10px 0;
+    margin-bottom: 15px;
+}
+
+.modal-image {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    display: block;
+    margin: 0 auto 12px;
+    border-radius: 10px;
+}
+
+.modal-feedback {
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.modal-feedback textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px;
+    border: 2px solid #d4c4b0;
+    border-radius: 10px;
+    font-family: 'Microsoft JhengHei', 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1rem;
+    color: #5c4a37;
+    background: #fff;
+    resize: vertical;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+.modal-feedback textarea:focus {
+    outline: none;
+    border-color: rgb(150, 70, 20);
+}
+
+.modal-feedback textarea::placeholder {
+    color: #a69b8a;
+    opacity: 0.6;
+    font-style: italic;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.complete-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 30px;
+    background: rgb(222, 126, 39);
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(222, 126, 39, 0.3);
+}
+
+.complete-btn:hover {
+    background: rgb(240, 140, 50);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(222, 126, 39, 0.4);
+}
+
+.complete-btn:active {
+    transform: translateY(0);
+}
+
+.complete-btn.completed {
+    background: rgb(33, 14, 10);
+    box-shadow: 0 4px 15px rgba(33, 14, 10, 0.3);
+}
+
+.complete-btn.completed:hover {
+    background: rgb(50, 25, 20);
+    box-shadow: 0 6px 20px rgba(33, 14, 10, 0.4);
+}
+
+.complete-icon {
+    display: none;
+}
+
+/* 完成狀態標記已移除，改用圖片區分 */
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .title-image {
+        max-width: 90%;
+    }
+    
+    .pearls-container {
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        gap: 15px;
+        padding: 20px;
+    }
+    
+    .pearl {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .pearl-day {
+        font-size: 0.65rem;
+    }
+    
+    .pearl-date {
+        font-size: 0.55rem;
+    }
+    
+    .modal-content {
+        padding: 30px 20px;
+        margin: 20% auto;
+    }
+    
+    .modal-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .modal-body {
+        font-size: 1.1rem;
+    }
+    
+    .modal-feedback textarea {
+        min-height: 80px;
+        font-size: 0.95rem;
+    }
+    
+    .complete-btn {
+        padding: 10px 25px;
+        font-size: 1rem;
+    }
+    
+    .bubble-tea-image {
+        padding: 15px;
+    }
+    
+    .bubble-tea-image img {
+        max-height: 400px;
+    }
+}
+
