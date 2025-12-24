@@ -35,19 +35,24 @@ const dailyContent = {
     '2026-01-23': { weekday: '五', content: '刻意改變今天日常生活中的一個小習慣。' }
 };
 
-// 起始日期和結束日期
-const startDate = new Date('2025-12-25T00:00:00+08:00');
-const endDate = new Date('2026-01-23T23:59:59+08:00');
+// 起始日期和結束日期（使用本地時區）
+// 注意：new Date('2025-12-25T00:00:00') 會使用使用者的本地時區
+// 這確保無論使用者在哪個時區，起始日都是 12/25
+const startDate = new Date('2025-12-25T00:00:00');
+const endDate = new Date('2026-01-23T23:59:59');
 
-// 獲取台灣時間（UTC+8）
-function getTaiwanTime() {
+// 獲取本地時間的日期（YYYY-MM-DD 格式）
+// 此函數使用使用者的本地時區來獲取當前日期
+// 在當地午夜 00:00 時，日期會自動更新
+function getLocalDate() {
     const now = new Date();
-    const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-    const taiwanTime = new Date(utc + (8 * 3600000));
-    return taiwanTime;
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
 }
 
-// 格式化日期為 YYYY-MM-DD
+// 格式化日期為 YYYY-MM-DD（基於本地時區）
 function formatDate(date) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -57,7 +62,7 @@ function formatDate(date) {
 
 // 格式化日期顯示（Dec 25, 2025）
 function formatDateDisplay(dateStr) {
-    const date = new Date(dateStr + 'T00:00:00+08:00');
+    const date = new Date(dateStr + 'T00:00:00');
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
                         'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const month = monthNames[date.getMonth()];
@@ -68,20 +73,24 @@ function formatDateDisplay(dateStr) {
 
 // 格式化星期顯示（Thursday）
 function formatWeekday(dateStr) {
-    const date = new Date(dateStr + 'T00:00:00+08:00');
+    const date = new Date(dateStr + 'T00:00:00');
     const weekdayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 
                           'Thursday', 'Friday', 'Saturday'];
     return weekdayNames[date.getDay()];
 }
 
-// 檢查日期是否已解鎖
+// 檢查日期是否已解鎖（基於本地時區的午夜 00:00）
+// 邏輯：當使用者的本地日期 >= 目標日期時，該日期解鎖
+// 例如：在 12/25 的 00:00:00，today = '2025-12-25'，'2025-12-25' <= '2025-12-25' 為 true，解鎖
 function isDateUnlocked(dateStr) {
     // 開發模式下解鎖所有日期
     if (DEV_MODE) {
         return true;
     }
-    const taiwanTime = getTaiwanTime();
-    const today = formatDate(taiwanTime);
+    // 使用本地時區的當前日期（YYYY-MM-DD 格式）
+    const today = getLocalDate();
+    // 字符串比較：'2025-12-25' <= '2025-12-25' 為 true
+    // 這確保在當地午夜 00:00 時，當天的日期會自動解鎖
     return dateStr <= today;
 }
 
@@ -100,7 +109,7 @@ function generateDates() {
 
 // 格式化日期為簡短格式（Dec 25）
 function formatShortDate(dateStr) {
-    const date = new Date(dateStr + 'T00:00:00+08:00');
+    const date = new Date(dateStr + 'T00:00:00');
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
                         'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const month = monthNames[date.getMonth()];
