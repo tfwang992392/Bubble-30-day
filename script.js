@@ -10,10 +10,10 @@ const dailyContent = {
     '2025-12-29': { weekday: '一', content: '留意周遭，找出十種不同的紫色。' },
     '2025-12-30': { weekday: '二', content: '不開燈洗澡。' },
     '2025-12-31': { weekday: '三', content: '像旁白一樣，大聲說出你正在做的事情。' },
-    '2026-01-01': { weekday: '四', content: '花 2 分鐘看看一個新的 AI 工具，或學一點關於 AI 的新知。' },
+    '2026-01-01': { weekday: '四', content: '有哪一段記憶，是你現在最想重新經歷的？' },
     '2026-01-02': { weekday: '五', content: '拍一張你今天穿的鞋子的照片，傳給一位朋友。' },
     '2026-01-03': { weekday: '六', content: '去買一桶冰淇淋。' },
-    '2026-01-04': { weekday: '日', content: '有哪一段記憶，是你現在最想重新經歷的？' },
+    '2026-01-04': { weekday: '日', content: '錄下自己 30 秒的聲音，然後播放來聽。' },
     '2026-01-05': { weekday: '一', content: '整天用非英文、也非中文的其他語言說「你好」。' },
     '2026-01-06': { weekday: '二', content: '你最常拼錯的一個單字是什麼？' },
     '2026-01-07': { weekday: '三', content: '哪一本書改變了你對人生的看法？' },
@@ -23,7 +23,7 @@ const dailyContent = {
     '2026-01-11': { weekday: '日', content: '你會信任哪一種食物，幫你保守秘密？' },
     '2026-01-12': { weekday: '一', content: '試著猜測你下一個看到的人的職業。' },
     '2026-01-13': { weekday: '二', content: '用一種你從未用過的風格，重新寫一次你的名字。' },
-    '2026-01-14': { weekday: '三', content: '錄下自己 30 秒的聲音，然後播放來聽。' },
+    '2026-01-14': { weekday: '三', content: '刻意改變今天日常生活中的一個小習慣。' },
     '2026-01-15': { weekday: '四', content: '穿兩隻不同顏色的襪子。' },
     '2026-01-16': { weekday: '五', content: '對一株植物低聲說一個秘密。' },
     '2026-01-17': { weekday: '六', content: '把一段真實的回憶，改寫成一篇小說。' },
@@ -32,7 +32,7 @@ const dailyContent = {
     '2026-01-20': { weekday: '二', content: '像是剛降落在新星球一樣，向最近的物品介紹你自己。' },
     '2026-01-21': { weekday: '三', content: '找出今天你做過最不重要的一個決定，並用科學家的方式分析它。' },
     '2026-01-22': { weekday: '四', content: '如果你今天的心情是一種麵條，它會是什麼麵？' },
-    '2026-01-23': { weekday: '五', content: '刻意改變今天日常生活中的一個小習慣。' }
+    '2026-01-23': { weekday: '五', content: '在這段日子裡，有沒有哪一個小提示，特別讓你留下印象？' }
 };
 
 // 起始日期和結束日期（使用本地時區）
@@ -200,6 +200,21 @@ function saveFeedback(dateStr, feedback) {
     localStorage.setItem(`feedback_${dateStr}`, feedback);
 }
 
+// 從 localStorage 獲取照片
+function getPhoto(dateStr) {
+    const photo = localStorage.getItem(`photo_${dateStr}`);
+    return photo || '';
+}
+
+// 保存照片到 localStorage（使用 base64 編碼）
+function savePhoto(dateStr, photoData) {
+    if (photoData) {
+        localStorage.setItem(`photo_${dateStr}`, photoData);
+    } else {
+        localStorage.removeItem(`photo_${dateStr}`);
+    }
+}
+
 // 檢查是否已完成
 function isCompleted(dateStr) {
     const completed = localStorage.getItem(`completed_${dateStr}`);
@@ -254,6 +269,42 @@ function showModal(dateStr) {
         
         // 載入回饋
         feedbackInput.value = getFeedback(dateStr);
+        
+        // 載入照片
+        const photoInput = document.getElementById('photoInput');
+        const photoPreview = document.getElementById('photoPreview');
+        const photoPreviewImg = document.getElementById('photoPreviewImg');
+        const photoRemove = document.getElementById('photoRemove');
+        const savedPhoto = getPhoto(dateStr);
+        
+        if (savedPhoto) {
+            photoPreviewImg.src = savedPhoto;
+            photoPreview.style.display = 'block';
+        } else {
+            photoPreview.style.display = 'none';
+        }
+        
+        // 設置照片上傳事件
+        photoInput.onchange = function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const photoData = event.target.result;
+                    photoPreviewImg.src = photoData;
+                    photoPreview.style.display = 'block';
+                    savePhoto(dateStr, photoData);
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+        
+        // 設置照片刪除事件
+        photoRemove.onclick = function() {
+            photoPreview.style.display = 'none';
+            photoInput.value = '';
+            savePhoto(dateStr, '');
+        };
         
         // 設置完成狀態
         const completed = isCompleted(dateStr);

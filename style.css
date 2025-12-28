@@ -263,6 +263,75 @@ header {
     border-radius: 10px;
 }
 
+.modal-photo {
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.photo-upload-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: #f5e6d3;
+    border: 2px dashed #d4c4b0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #8b6f47;
+    font-size: 0.95rem;
+}
+
+.photo-upload-label:hover {
+    background: #e8d5c4;
+    border-color: rgb(150, 70, 20);
+}
+
+.photo-icon {
+    font-size: 1.2rem;
+}
+
+.photo-preview {
+    position: relative;
+    margin-top: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid #d4c4b0;
+}
+
+.photo-preview img {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;
+    display: block;
+    background: #f9f9f9;
+}
+
+.photo-remove {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    line-height: 1;
+}
+
+.photo-remove:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+}
+
 .modal-feedback {
     margin-top: 5px;
     margin-bottom: 15px;
@@ -379,6 +448,20 @@ header {
     
     .modal-body {
         font-size: 1.1rem;
+    }
+    
+    .modal-photo {
+        margin-top: 8px;
+        margin-bottom: 12px;
+    }
+    
+    .photo-upload-label {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .photo-preview img {
+        max-height: 200px;
     }
     
     .modal-feedback textarea {

@@ -40,6 +40,17 @@
                 <img id="modalImage" src="" alt="" class="modal-image" style="display: none;" />
                 <p id="modalContent"></p>
             </div>
+            <div class="modal-photo">
+                <label for="photoInput" class="photo-upload-label">
+                    <span class="photo-icon">📷</span>
+                    <span class="photo-text">上傳照片</span>
+                </label>
+                <input type="file" id="photoInput" accept="image/*" style="display: none;" />
+                <div class="photo-preview" id="photoPreview" style="display: none;">
+                    <img id="photoPreviewImg" src="" alt="預覽照片" />
+                    <button class="photo-remove" id="photoRemove">×</button>
+                </div>
+            </div>
             <div class="modal-feedback">
                 <textarea id="feedbackInput" placeholder="Write down anything..."></textarea>
             </div>
