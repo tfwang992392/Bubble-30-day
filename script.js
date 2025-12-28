@@ -277,6 +277,9 @@ function showModal(dateStr) {
         const photoRemove = document.getElementById('photoRemove');
         const savedPhoto = getPhoto(dateStr);
         
+        // 重置 input（避免選擇相同檔案時不觸發事件）
+        photoInput.value = '';
+        
         if (savedPhoto) {
             photoPreviewImg.src = savedPhoto;
             photoPreview.style.display = 'block';
@@ -288,6 +291,20 @@ function showModal(dateStr) {
         photoInput.onchange = function(e) {
             const file = e.target.files[0];
             if (file) {
+                // 檢查檔案大小（限制為 5MB）
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('照片檔案太大，請選擇小於 5MB 的照片');
+                    photoInput.value = '';
+                    return;
+                }
+                
+                // 檢查檔案類型
+                if (!file.type.startsWith('image/')) {
+                    alert('請選擇圖片檔案');
+                    photoInput.value = '';
+                    return;
+                }
+                
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     const photoData = event.target.result;
@@ -295,12 +312,17 @@ function showModal(dateStr) {
                     photoPreview.style.display = 'block';
                     savePhoto(dateStr, photoData);
                 };
+                reader.onerror = function() {
+                    alert('讀取照片時發生錯誤，請重試');
+                    photoInput.value = '';
+                };
                 reader.readAsDataURL(file);
             }
         };
         
         // 設置照片刪除事件
-        photoRemove.onclick = function() {
+        photoRemove.onclick = function(e) {
+            e.stopPropagation();
             photoPreview.style.display = 'none';
             photoInput.value = '';
             savePhoto(dateStr, '');
